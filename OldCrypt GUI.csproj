@@ -109,6 +109,30 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GUI\Modules\CipherControls\Modern\Asymmetrical\CipherControl_Asymmetrical.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\Modules\CipherControls\Modern\Asymmetrical\KeyExportDialogue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\Modules\CipherControls\Modern\Asymmetrical\KeyImportDialogue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\Modules\CipherControls\Modern\Asymmetrical\KeyModule_Asymmetrical.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\Modules\CipherControls\Modern\Asymmetrical\KeySelectDialogue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GUI\Modules\CipherControls\Modern\Asymmetrical\SingleKeyController.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GUI\Modules\CipherControls\Modern\Symmetrical\CipherControl_Symmetrical.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -177,6 +201,24 @@
     <Compile Include="Functions\GUI.cs" />
     <Compile Include="Functions\IO.cs" />
     <Compile Include="Functions\RSA.cs" />
+    <Compile Include="GUI\Modules\CipherControls\Modern\Asymmetrical\CipherControl_Asymmetrical.xaml.cs">
+      <DependentUpon>CipherControl_Asymmetrical.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Modules\CipherControls\Modern\Asymmetrical\KeyExportDialogue.xaml.cs">
+      <DependentUpon>KeyExportDialogue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Modules\CipherControls\Modern\Asymmetrical\KeyImportDialogue.xaml.cs">
+      <DependentUpon>KeyImportDialogue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Modules\CipherControls\Modern\Asymmetrical\KeyModule_Asymmetrical.xaml.cs">
+      <DependentUpon>KeyModule_Asymmetrical.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Modules\CipherControls\Modern\Asymmetrical\KeySelectDialogue.xaml.cs">
+      <DependentUpon>KeySelectDialogue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Modules\CipherControls\Modern\Asymmetrical\SingleKeyController.xaml.cs">
+      <DependentUpon>SingleKeyController.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Modules\CipherControls\Modern\Symmetrical\CipherControl_TripleDES.cs" />
     <Compile Include="GUI\Modules\CipherControls\Modern\Symmetrical\CipherControl_RC2.cs" />
     <Compile Include="GUI\Modules\CipherControls\Modern\Symmetrical\CipherControl_DES.cs" />
