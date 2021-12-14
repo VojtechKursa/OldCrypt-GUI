@@ -1,0 +1,1117 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OldCrypt Library</name>
+    </assembly>
+    <members>
+        <member name="T:OldCrypt_Library.Cipher">
+            <summary>
+            A base class for all encryption methods in the <see cref="N:OldCrypt_Library"/>.
+            </summary>
+        </member>
+        <member name="F:OldCrypt_Library.Cipher.progress">
+            <summary>
+            A value that stores the progress of the current encryption or decryption operation as a <see cref="T:System.Double"/> between 0 and 1
+            </summary>
+        </member>
+        <member name="F:OldCrypt_Library.Cipher.strict">
+            <summary>
+            A value indicating whether strict input filtering should be used. This has effect only on the <see cref="M:OldCrypt_Library.Cipher.Encrypt(System.String)"/> method.<br />
+            <u>Expected behaviour:</u><br />
+            On/True - Characters unsupported by the cipher (characters that cannot be encrypted) are dropped during the encryption process.<br />
+            Off/False - Characters unsupported by the cipher are, if possible, passed to the output without change.
+            </summary>
+        </member>
+        <member name="F:OldCrypt_Library.Cipher.ignoreCase">
+            <summary>
+            A value indicating whether the case of the characters should be ignored or respected during the encryption.<br />
+            If true, the output should be all upper-case.<br />
+            If false, the output should have the same case as the input, if possible.
+            </summary>
+        </member>
+        <member name="F:OldCrypt_Library.Cipher.ignoreSpace">
+            <summary>
+            A value indicating whether spaces should be ignored during the encryption.<br />
+            If true, the output should be without whitespaces.<br />
+            If false, the output should have whitespaces in the correct position so they reappear correctly after decryption.
+            </summary>
+        </member>
+        <member name="P:OldCrypt_Library.Cipher.Progress">
+            <summary>
+            Gets the progress of the current encryption or decryption operation as a value between 0 and 1.
+            </summary>
+            <returns>The progress of the current operation.</returns>
+        </member>
+        <member name="P:OldCrypt_Library.Cipher.Strict">
+            <summary>
+            Gets or sets <inheritdoc cref="F:OldCrypt_Library.Cipher.strict"/>
+            </summary>
+            <returns>True if strict mode is on, otherwise false.</returns>
+        </member>
+        <member name="P:OldCrypt_Library.Cipher.IgnoreCase">
+            <summary>
+            Gets or sets <inheritdoc cref="F:OldCrypt_Library.Cipher.ignoreCase"/>
+            </summary>
+            <returns>True if IgnoreCase option is on, otherwise false.</returns>
+        </member>
+        <member name="P:OldCrypt_Library.Cipher.IgnoreSpace">
+            <summary>
+            Gets or sets <inheritdoc cref="F:OldCrypt_Library.Cipher.ignoreSpace"/>
+            </summary>
+            <returns>True if IgnoreSpace option is on, otherwise false.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Cipher.Encrypt(System.String)">
+            <summary>
+            Encrypts a string of characters using the specified encryption method.
+            </summary>
+            <param name="text">Text to encrypt.</param>
+            <returns>A <see cref="T:System.String"/> containing the encrypted text.</returns>
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidInputException" />
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException" />
+        </member>
+        <member name="M:OldCrypt_Library.Cipher.Decrypt(System.String)">
+            <summary>
+            Decrypts a string of characters using the specified encryption method.
+            </summary>
+            <param name="text">Text to decrypt.</param>
+            <returns>A <see cref="T:System.String"/> containing the decrypted text.</returns>
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidInputException" />
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException" />
+        </member>
+        <member name="M:OldCrypt_Library.Cipher.EncryptFile(System.IO.BinaryReader,System.IO.BinaryWriter)">
+            <summary>
+            Encrypts a file using the selected encryption method.<br />
+            Note: This method doesn't automatically close the reader nor writer when it's finished in case they would be required elsewhere in the program. If you want to close them afterwards, you have to do it manually.
+            </summary>
+            <param name="input">The <see cref="T:System.IO.BinaryReader"/> opened on the input file.</param>
+            <param name="output">The <see cref="T:System.IO.BinaryWriter"/> opened on the output file.</param>
+            <returns>True if successful. False if <see cref="T:System.Exception"/> unrelated to the encryption was encountered during the processing.</returns>
+            <exception cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException" />
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException" />
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidInputException" />
+        </member>
+        <member name="M:OldCrypt_Library.Cipher.DecryptFile(System.IO.BinaryReader,System.IO.BinaryWriter)">
+            <summary>
+            Decrypts a file using the selected encryption method.<br />
+            Note: This method doesn't automatically close the reader nor writer when it's finished in case they would be required elsewhere in the program. If you want to close them afterwards, you have to do it manually.
+            </summary>
+            <param name="input">The <see cref="T:System.IO.BinaryReader"/> opened on the input file.</param>
+            <param name="output">The <see cref="T:System.IO.BinaryWriter"/> opened on the output file.</param>
+            <returns>True if successful. False if <see cref="T:System.Exception"/> unrelated to the decryption was encountered during the processing.</returns>
+            <exception cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException" />
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException" />
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidInputException" />
+        </member>
+        <member name="M:OldCrypt_Library.Cipher.FileHandler(System.IO.BinaryReader,System.IO.BinaryWriter,System.Boolean)">
+            <summary>
+            Handles the actual file encryption/decryption for binary encryption mode.<br />
+            Both <see cref="M:OldCrypt_Library.Cipher.EncryptFile(System.IO.BinaryReader,System.IO.BinaryWriter)"/> and <see cref="M:OldCrypt_Library.Cipher.DecryptFile(System.IO.BinaryReader,System.IO.BinaryWriter)"/> call this method by default.
+            </summary>
+            <param name="input">Reference to the input reader.</param>
+            <param name="output">Reference to the output writer.</param>
+            <param name="encrypt">True if the file should be encrypted, false if decrypted.</param>
+            <returns>True if successful. False if <see cref="T:System.Exception"/> unrelated to the encryption/decryption was encountered during the processing.</returns>
+            <exception cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException" />
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException" />
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidInputException" />
+        </member>
+        <member name="M:OldCrypt_Library.Cipher.Encrypt(System.Byte[])">
+            <summary>
+            Encrypts an array of <see cref="T:System.Byte"/>s using the specified encryption method.
+            </summary>
+            <param name="data">Array of <see cref="T:System.Byte"/>s to encrypt.</param>
+            <returns>Encrypted array of <see cref="T:System.Byte"/>s.</returns>
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidInputException" />
+            <exception cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException" />
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException" />
+        </member>
+        <member name="M:OldCrypt_Library.Cipher.Decrypt(System.Byte[])">
+            <summary>
+            Decrypts an array of <see cref="T:System.Byte"/>s using the specified encryption method.
+            </summary>
+            <param name="data">Array of <see cref="T:System.Byte"/>s to decrypt.</param>
+            <returns>Decrypted array of <see cref="T:System.Byte"/>s.</returns>
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidInputException" />
+            <exception cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException" />
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException" />
+        </member>
+        <member name="M:OldCrypt_Library.Cipher.ApplyIgnoreSpaceAndCase(System.String)">
+            <summary>
+            Applies the <see cref="F:OldCrypt_Library.Cipher.ignoreSpace"/> and <see cref="F:OldCrypt_Library.Cipher.ignoreCase"/> parameters to the text.
+            </summary>
+            <param name="text">Text to process.</param>
+            <returns>Processed <i>text</i>, that has all whitespaces removed if <see cref="F:OldCrypt_Library.Cipher.ignoreSpace"/> is <i>true</i> and all characters converted to upper-case if <see cref="F:OldCrypt_Library.Cipher.ignoreCase"/> is <i>true</i>.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Cipher.HandleInvalidCharacter(System.String,System.Char)">
+            <summary>
+            Provides a standardized way of handling invalid (unencryptable) characters.
+            </summary>
+            <param name="input">The string that's being build as the output of the encryption process.</param>
+            <param name="invalidCharacter">The character that was detected as invalid.</param>
+            <returns>The <i>input</i> that either has the <i>invalidCharacter</i> attached to it's end or not, based on the character, <see cref="F:OldCrypt_Library.Cipher.strict"/> and <see cref="F:OldCrypt_Library.Cipher.ignoreSpace"/>.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Converters.Binary.Encrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Converters.Binary.Decrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Converters.Binary.Encrypt(System.Byte[])">
+            <summary>
+            Throws a <see cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException"/>
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Converters.Binary.Decrypt(System.Byte[])">
+            <summary>
+            Throws a <see cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException"/>
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Converters.Hexadecimal.Encrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Converters.Hexadecimal.Decrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Converters.Hexadecimal.Encrypt(System.Byte[])">
+            <summary>
+            Throws a <see cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException"/>
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Converters.Hexadecimal.Decrypt(System.Byte[])">
+            <summary>
+            Throws a <see cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException"/>
+            </summary>
+        </member>
+        <member name="T:OldCrypt_Library.Data.PlayfairTable">
+            <summary>
+            A class that represents a table used for <see cref="T:OldCrypt_Library.Old.Substitution.Playfair"/> cipher.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Data.PlayfairTable.#ctor">
+            <summary>
+            Creates a new instance of the <see cref="T:OldCrypt_Library.Data.PlayfairTable"/> with no key.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Data.PlayfairTable.#ctor(System.String)">
+            <summary>
+            Creates a new instance of the <see cref="T:OldCrypt_Library.Data.PlayfairTable"/> with the specified key.
+            </summary>
+            <param name="key">Key based on which the <see cref="T:OldCrypt_Library.Data.PlayfairTable"/> is to be generated.</param>
+        </member>
+        <member name="M:OldCrypt_Library.Data.PlayfairTable.Encrypt(System.Char[])">
+            <summary>
+            Encrypts the given pair of characters using the Playfair cipher rules and the current table.
+            </summary>
+            <param name="characters">Array containing ONE PAIR of characters to encrypt.</param>
+            <returns>The encrypted pair of characters or null if <see cref="P:System.Array.Length"/> of "characters" != 2 or at least one of the characters is not found in the table.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Data.PlayfairTable.Decrypt(System.Char[])">
+            <summary>
+            Decrypts the given pair of characters using the Playfair cipher rules and the current table.
+            </summary>
+            <param name="characters">Array containing ONE PAIR of characters to decrypt.</param>
+            <returns>The decrypted pair of characters or null if <see cref="P:System.Array.Length"/> of "characters" != 2 or at least one of the characters is not found in the table.</returns>
+        </member>
+        <member name="T:OldCrypt_Library.Data.PolybiusSquare">
+            <summary>
+            The base class for <see cref="T:OldCrypt_Library.Data.PolybiusTable"/> and <see cref="T:OldCrypt_Library.Data.PlayfairTable"/>.
+            </summary>
+        </member>
+        <member name="P:OldCrypt_Library.Data.PolybiusSquare.Table">
+            <summary>
+            Gets the table.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Data.PolybiusSquare.GenerateTable(System.String)">
+            <summary>
+            Generates a new table based on the specified key and sets it as <see cref="F:OldCrypt_Library.Data.PolybiusSquare.table"/>.
+            </summary>
+            <param name="key">The key based on which the <see cref="F:OldCrypt_Library.Data.PolybiusSquare.table"/> is to be generated.</param>
+        </member>
+        <member name="T:OldCrypt_Library.Data.PolybiusTable">
+            <summary>
+            A class that represents a table used for <see cref="T:OldCrypt_Library.Old.Substitution.Polybius"/> cipher.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Data.PolybiusTable.#ctor">
+            <summary>
+            Initiates a new Polybius table with no key.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Data.PolybiusTable.#ctor(System.String)">
+            <summary>
+            Initiates a new Polybius table based on the given key.
+            </summary>
+            <param name="key">Key based on which the table will be generated.</param>
+        </member>
+        <member name="M:OldCrypt_Library.Data.PolybiusTable.GetCoordinates(System.Char)">
+            <summary>
+            Returns the Polybius table coordinates of the given character.
+            </summary>
+            <param name="character">Character to convert.</param>
+            <returns>Polybius table coordinates of the given character or the character itself if it was not found in the table.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Data.PolybiusTable.GetCharacter(System.String)">
+            <summary>
+            Returns the character on the given coordinates.
+            </summary>
+            <param name="coordinates"><see cref="T:System.String"/> containing a Polybius table coordinates.</param>
+            <returns>
+            If valid coordinates are given, the character on the given coordinates.<br />
+            If given coordinates are invalid returns:<br />
+            Whitespace if given string is empty.<br />
+            The character in the string if given string has just 1 character.<br />
+            Else '#'.
+            </returns>
+        </member>
+        <member name="T:OldCrypt_Library.Data.Table">
+            <summary>
+            A class that simplifies work with a 2D table/array.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Data.Table.#ctor(System.Char[0:,0:])">
+            <summary>
+            Initiates a new table with the given array.
+            </summary>
+            <param name="array">Array with which the Table will be initiated.</param>
+        </member>
+        <member name="P:OldCrypt_Library.Data.Table.Array">
+            <summary>
+            Gets or sets the inner array of the table. If an attempt to set the array to null is made, the array is set to new char[0, 0].
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Data.Table.GetChar(System.Int32[])">
+            <summary>
+            Gets a character on the given coordinates
+            </summary>
+            <param name="coordinates">Array of coordinates, where on the index 0 is the X coordinate and on the index 1 is the Y coordinate.</param>
+            <returns>Character on the given coordinates.</returns>
+            <exception cref="T:System.NullReferenceException" />
+            <exception cref="T:System.IndexOutOfRangeException" />
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidCoordinateLengthException" />
+        </member>
+        <member name="M:OldCrypt_Library.Data.Table.GetChar(System.Int32,System.Int32)">
+            <summary>
+            Gets a character on the given coordinates.
+            </summary>
+            <param name="x">The x coordinate.</param>
+            <param name="y">The y coordinate.</param>
+            <returns>Character on the given coordinates</returns>
+            <exception cref="T:System.IndexOutOfRangeException" />
+        </member>
+        <member name="M:OldCrypt_Library.Data.Table.GetCoordinates(System.Char)">
+            <summary>
+            Gets coordinates of the first instance of the given character in the table.
+            </summary>
+            <param name="character">Character to look for.</param>
+            <returns>
+                The coordinates of the first instance of the given character in a form of an array.<br />
+                In the array the X coordinate is on the index 0 and Y coordinate is on the index 1.<br />
+                If the character is not found in the table, returns null.
+            </returns>
+        </member>
+        <member name="T:OldCrypt_Library.Exceptions.CipherUnavailableException">
+            <summary>
+            An <see cref="T:System.Exception"/>, that is thrown when the called encryption/decryption method is not available.<br />
+            Usual reason for the unavailability is the impossibility of implementation caused by the specifics of the selected cipher.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Exceptions.CipherUnavailableException.#ctor">
+            <summary>
+            Creates a new instance of <see cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException"/> with no message.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Exceptions.CipherUnavailableException.#ctor(System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException"/> with the specified message.
+            </summary>
+            <param name="message">The message to be included.</param>
+        </member>
+        <member name="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException">
+            <summary>
+            An <see cref="T:System.Exception"/> that is thrown when cipher parameters are not valid for the selected cipher.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Exceptions.InvalidCipherParametersException.#ctor">
+            <summary>
+            Creates a new instance of <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/> with no message.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Exceptions.InvalidCipherParametersException.#ctor(System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/> with the specified message.
+            </summary>
+            <param name="message">The message to be included.</param>
+        </member>
+        <member name="T:OldCrypt_Library.Exceptions.InvalidCoordinateLengthException">
+            <summary>
+            An <see cref="T:System.Exception"/> that is thrown when a table lookup is attempted with an array of coordinates that has <see cref="P:System.Array.Length"/> not equal to the <see cref="P:System.Array.Rank"/> of the table.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Exceptions.InvalidCoordinateLengthException.#ctor">
+            <summary>
+            Creates a new instance of <see cref="T:OldCrypt_Library.Exceptions.InvalidCoordinateLengthException"/> with no message.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Exceptions.InvalidCoordinateLengthException.#ctor(System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:OldCrypt_Library.Exceptions.InvalidCoordinateLengthException"/> with the specified message.
+            </summary>
+            <param name="message">The message to be included.</param>
+        </member>
+        <member name="T:OldCrypt_Library.Exceptions.InvalidInputException">
+            <summary>
+            An <see cref="T:System.Exception"/> that is thrown when input that is not supported by the selected cipher is fed into it.<br />
+            For example an attempt to encrypt a number is made, but the selected cipher only supports letters.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Exceptions.InvalidInputException.#ctor">
+            <summary>
+            Creates a new instance of <see cref="T:OldCrypt_Library.Exceptions.InvalidInputException"/> with no message.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Exceptions.InvalidInputException.#ctor(System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:OldCrypt_Library.Exceptions.InvalidInputException"/> with the specified message.
+            </summary>
+            <param name="message">The message to be included.</param>
+        </member>
+        <member name="T:OldCrypt_Library.Exceptions.InvalidKeySizeException">
+            <summary>
+            An <see cref="T:System.Exception"/> that is thrown when key of unsupported length is attempted to be set as a key for modern encryption algorithm.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Exceptions.InvalidKeySizeException.#ctor">
+            <summary>
+            Creates a new instance of <see cref="T:OldCrypt_Library.Exceptions.InvalidKeySizeException"/> with no message.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Exceptions.InvalidKeySizeException.#ctor(System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:OldCrypt_Library.Exceptions.InvalidKeySizeException"/> with the specified message.
+            </summary>
+            <param name="message">The message to be included.</param>
+        </member>
+        <member name="T:OldCrypt_Library.Functions">
+            <summary>
+            A class that contains various useful functions for simplification of other places in the program.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Functions.ToHex(System.Byte[])">
+            <summary>
+            Converts the given array of <see cref="T:System.Byte"/>s to a <see cref="T:System.String"/> of hexadecimal numbers.
+            </summary>
+            <param name="data">Array of <see cref="T:System.Byte"/>s to be converted.</param>
+            <returns><see cref="T:System.String"/> containing the converted array.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Functions.ToByte(System.String)">
+            <summary>
+            Converts the given <see cref="T:System.String"/> of hexadecimal numbers to an array of <see cref="T:System.Byte"/>s. <br />
+            If the supplied string is of odd <see cref="P:System.String.Length"/>, it will be padded by a 0 from the left. <br />
+            If an unsupported value is encountered during the conversion, an <see cref="T:System.ArgumentException"/> will be thrown.
+            </summary>
+            <param name="hex">The <see cref="T:System.String"/> of hexadecimal numbers to be converted.</param>
+            <returns>The array of <see cref="T:System.Byte"/>s containing the converted string.</returns>
+            <exception cref="T:System.ArgumentException"/>
+        </member>
+        <member name="M:OldCrypt_Library.Functions.Modulo(System.Int32,System.Int32)">
+            <summary>
+            Returns a modulo of a number as a value between 0 and modulo - 1.<br />
+            (Performs a modulo operation and when the result is less than 0, adds modulo to it.)
+            </summary>
+            <param name="number">Number whose modulo to calculate.</param>
+            <param name="modulo">The modulo.</param>
+            <returns>Cryptographical modulo of the given number.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Functions.GreatestCommonDivisor(System.Int32,System.Int32)">
+            <summary>
+            Calculates the greatest common divisor of two numbers.<br />
+            If either of the numbers is less than 1, an <see cref="T:System.ArgumentOutOfRangeException"/> will be thrown.
+            </summary>
+            <param name="a">Number 1.</param>
+            <param name="b">Number 2.</param>
+            <returns>The greatest common divisor of A and B.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException" />
+            <!-- Source: https://stackoverflow.com/questions/18541832/c-sharp-find-the-greatest-common-divisor -->
+        </member>
+        <member name="M:OldCrypt_Library.Functions.TryModInverse(System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            Calculates the Modular Inverse of a given number in context of a given modulo.<br />
+            If number is less than 1 or modulo is less than 2, an <see cref="T:System.ArgumentOutOfRangeException"/> will be thrown.
+            </summary>
+            <param name="number">Number whose Modular Inverse is to be calculated.</param>
+            <param name="modulo">Modulo to be used in the calculation.</param>
+            <param name="result">Variable to which the result of the calculation will be passed.</param>
+            <returns>True if the calculation was successful, false if the number doesn't have a Modular Inverse in the given modulo context.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException" />
+            <!-- Source: https://stackoverflow.com/questions/7483706/c-sharp-modinverse-function -->
+        </member>
+        <member name="T:OldCrypt_Library.Hashing.Hash">
+            <summary>
+            A base class for all Hash algorithms in the <see cref="N:OldCrypt_Library"/>.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Hashing.Hash.Encrypt(System.String)">
+            <summary>
+            Encodes the given <i>text</i> using UTF-8 and computes hash from the resulting data. Then converts the result to uppercase hexadecimal.
+            </summary>
+            <param name="text">Text from which the hash is to be calculated.</param>
+            <returns>The hash of the given text in uppercase hexadecimal.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Hashing.Hash.Decrypt(System.String)">
+            <summary>
+            Throws a <see cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException"/>.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Hashing.Hash.Encrypt(System.Byte[])">
+            <summary>
+            Performs initialization of the HashAlgorithm and computes a hash of the given array of bytes.
+            </summary>
+            <param name="data">Data from which the hash is to be calculated.</param>
+            <returns>The hash calculated from the data.</returns>
+            <inheritdoc cref="M:System.Security.Cryptography.HashAlgorithm.ComputeHash(System.Byte[])"/>
+        </member>
+        <member name="M:OldCrypt_Library.Hashing.Hash.Decrypt(System.Byte[])">
+            <summary>
+            Throws a <see cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException"/>.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Hashing.Hash.EncryptFile(System.IO.BinaryReader,System.IO.BinaryWriter)">
+            <summary>
+            Resets (re-initializes) the hashing module, calculates the hash of the input file and saves it to the output file.<br />
+            The result is saved to the output file in a form of uppercase hexadecimal numbers encoded in UTF-8.
+            </summary>
+            <param name="input">The file to hash.</param>
+            <param name="output">The file where the resulting hash will be stored.</param>
+            <returns>True if the hashing was successful, otherwise false.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Hashing.Hash.DecryptFile(System.IO.BinaryReader,System.IO.BinaryWriter)">
+            <summary>
+            Throws a <see cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException"/>.
+            </summary>
+        </member>
+        <member name="T:OldCrypt_Library.Modern.Asymmetrical.AsymmetricalCipher">
+            <summary>
+            Represents the base class for modern Asymmetrical Ciphers.
+            </summary>
+        </member>
+        <member name="P:OldCrypt_Library.Modern.Asymmetrical.AsymmetricalCipher.KeySize">
+            <summary>
+            Gets or sets the size of the key that's being used by the current algorithm, in bits.<br />
+            Throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidKeySizeException"/> if an attempt to set KeySize to an unsupported value is made.
+            </summary>
+            <returns>The size of the key that's being used by the current algorithm. (in bits)</returns>
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidKeySizeException"/>
+        </member>
+        <member name="P:OldCrypt_Library.Modern.Asymmetrical.AsymmetricalCipher.KeySizeByte">
+            <summary>
+            Gets or sets the size of the key that's being used by the current algorithm, in bytes.<br />
+            Throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidKeySizeException"/> if an attempt to set KeySize to an unsupported value is made.
+            </summary>
+            <returns>The size of the key that's being used by the current algorithm. (in bytes)</returns>
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidKeySizeException"/>
+        </member>
+        <member name="P:OldCrypt_Library.Modern.Asymmetrical.AsymmetricalCipher.LegalKeySizes">
+            <summary>
+            Gets the supported key sizes of the current algorithm.
+            </summary>
+            <returns>The supported key sizes of the current algorithm.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Asymmetrical.AsymmetricalCipher.Encrypt(System.String)">
+            <summary>
+            <inheritdoc/><br />
+            The string of characters is encoded into bytes using the <see cref="P:System.Text.Encoding.UTF8"/>, encrypted and converted a to hexadecimal string.<br />
+            All the required parameters must be set before calling this method, otherwise throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/>.
+            </summary>
+            <returns><inheritdoc/> (In hexadecimal).</returns>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Asymmetrical.AsymmetricalCipher.Decrypt(System.String)">
+            <summary>
+            <inheritdoc/><br />
+            The string of characters is converted to bytes from the hexadecimal representation, decrypted and decoded back into string using the <see cref="P:System.Text.Encoding.UTF8"/>.<br />
+            All the required parameters must be set before calling this method, otherwise throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/>.
+            </summary>
+            <param name="text">The ciphertext in hexadecimal.</param>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Asymmetrical.RSA.Encrypt(System.Byte[])">
+            <summary>
+            <inheritdoc/><br />
+            Uses the <see cref="P:OldCrypt_Library.Modern.Asymmetrical.RSA.DefaultPaddingMode"/> as padding.
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Asymmetrical.RSA.Decrypt(System.Byte[])">
+            <summary>
+            <inheritdoc/><br />
+            Uses the <see cref="P:OldCrypt_Library.Modern.Asymmetrical.RSA.DefaultPaddingMode"/> as padding.<br />
+            Throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/> if the private key isn't specified.
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Asymmetrical.RSA.Encrypt(System.Byte[],System.Security.Cryptography.RSAEncryptionPadding)">
+            <param name="padding"><see cref="T:System.Security.Cryptography.RSAEncryptionPadding"/> to use as a padding.</param>
+            <inheritdoc cref="M:OldCrypt_Library.Cipher.Encrypt(System.Byte[])"/>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Asymmetrical.RSA.Decrypt(System.Byte[],System.Security.Cryptography.RSAEncryptionPadding)">
+            <summary>
+            <inheritdoc cref="M:OldCrypt_Library.Cipher.Decrypt(System.Byte[])"/><br />
+            Throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/> if the private key isn't specified.
+            </summary>
+            <param name="padding"><see cref="T:System.Security.Cryptography.RSAEncryptionPadding"/> to use as a padding.</param>
+            <inheritdoc cref="M:OldCrypt_Library.Cipher.Decrypt(System.Byte[])"/>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Asymmetrical.RSA.GetParameters(System.Boolean)">
+            <summary>
+            Returns the parameters used by the current instance of <see cref="T:OldCrypt_Library.Modern.Asymmetrical.RSA"/> cipher.<br />
+            Equivalent to <see cref="M:System.Security.Cryptography.RSA.ExportParameters(System.Boolean)"/>.
+            </summary>
+            <param name="includePrivateParameters">Whether to include private parameters or not.</param>
+            <returns>The parameters used by the current instance of <see cref="T:OldCrypt_Library.Modern.Asymmetrical.RSA"/> cipher.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Asymmetrical.RSA.SetParameters(System.Security.Cryptography.RSAParameters)">
+            <summary>
+            Sets the parameters to be used by the current instance of <see cref="T:OldCrypt_Library.Modern.Asymmetrical.RSA"/> cipher.<br />
+            When only public parameters are supplied, only encryption will be impossible.<br />
+            Equivalent to <see cref="M:System.Security.Cryptography.RSA.ImportParameters(System.Security.Cryptography.RSAParameters)"/>.
+            </summary>
+            <param name="parameters">Parameters to be used.</param>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Asymmetrical.RSA.GetParametersXML(System.Boolean)">
+            <summary>
+            Returns the parameters used by the current instance of <see cref="T:OldCrypt_Library.Modern.Asymmetrical.RSA"/> cipher in a format of XML string.<br />
+            Equivalent to <see cref="M:System.Security.Cryptography.RSA.ToXmlString(System.Boolean)"/>.
+            </summary>
+            <param name="includePrivateParameters">Whether to include private parameters or not.</param>
+            <returns>The parameters used by the current instance of <see cref="T:OldCrypt_Library.Modern.Asymmetrical.RSA"/> cipher, in XML string format.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Asymmetrical.RSA.SetParametersXML(System.String)">
+            <summary>
+            Sets the parameters to be used by the current instance of <see cref="T:OldCrypt_Library.Modern.Asymmetrical.RSA"/> cipher.<br />
+            When only public parameters are supplied, only encryption will be impossible.<br />
+            Equivalent to <see cref="M:System.Security.Cryptography.RSA.FromXmlString(System.String)"/>.
+            </summary>
+            <param name="parameters">Parameters to be used, in XML string format.</param>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Asymmetrical.RSA.MaxEncryptableDataSize(System.Security.Cryptography.RSAEncryptionPadding)">
+            <summary>
+            Returns the maximum amount of bytes that can be encrypted at once by RSA, depending on the selected <see cref="T:System.Security.Cryptography.RSAEncryptionPadding"/> scheme and size of Key.
+            </summary>
+            <param name="padding">The desired <see cref="T:System.Security.Cryptography.RSAEncryptionPadding"/> scheme.</param>
+            <returns>
+            The maximum amount of bytes that RSA can encrypt at once.<br />
+            This value can be negative if encryption is not possible using the given padding scheme and key size.<br />
+            -1 if the <i>padding</i> is not supported by this method.
+            </returns>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Asymmetrical.RSA.GetOverhead(System.Security.Cryptography.RSAEncryptionPadding)">
+            <summary>
+            Calculates the minimum overhead required by the selected <see cref="T:System.Security.Cryptography.RSAEncryptionPadding"/> scheme, in bytes.
+            </summary>
+            <param name="padding">The selected <see cref="T:System.Security.Cryptography.RSAEncryptionPadding"/> scheme.</param>
+            <returns>The minimum overhead required by the selected <see cref="T:System.Security.Cryptography.RSAEncryptionPadding"/> scheme. (in bytes)</returns>
+        </member>
+        <member name="T:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher">
+            <summary>
+            Represents the base class for Symmetrical modern ciphers.
+            </summary>
+        </member>
+        <member name="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Algorithm">
+            <summary>
+            Gets the reference to the current instance of the algorithm used.
+            </summary>
+        </member>
+        <member name="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Key">
+            <summary>
+            Gets or sets the Key used by the current algorithm.<br />
+            <u>Setting:</u><br />
+            If the key given has different length than the current <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.KeySize"/>, the <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.KeySize"/> will be changed to match the length of the key,<br />
+            which can result in <see cref="T:OldCrypt_Library.Exceptions.InvalidKeySizeException"/> when the given key is of unsupported length.<br />
+            If null is given an <see cref="T:System.ArgumentNullException"/> is thrown.
+            </summary>
+            <returns><inheritdoc cref="P:System.Security.Cryptography.SymmetricAlgorithm.Key"/></returns>
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidKeySizeException" />
+            <exception cref="T:System.ArgumentNullException"/>
+        </member>
+        <member name="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.KeySize">
+            <summary>
+            Gets or sets the size of the key used by the current algorithm (in bits).<br />
+            During setting, an <see cref="T:OldCrypt_Library.Exceptions.InvalidKeySizeException"/> can be thrown if a key size that's not supported by the current algorithm is given.
+            </summary>
+            <returns><inheritdoc cref="P:System.Security.Cryptography.SymmetricAlgorithm.KeySize"/></returns>
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidKeySizeException" />
+        </member>
+        <member name="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.KeySizeByte">
+            <summary>
+            Gets or sets the size of the key used by the current algorithm (in bytes).<br />
+            During setting, an <see cref="T:OldCrypt_Library.Exceptions.InvalidKeySizeException"/> can be thrown if a key size that's not supported by the current algorithm is given.
+            </summary>
+            <returns>The size, in <b>bytes</b>, of the secret key used by the current algorithm.</returns>
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidKeySizeException" />
+        </member>
+        <member name="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.ValidKeySizes">
+            <summary>
+            Gets the valid key sizes for the current algorithm (in bits).
+            </summary>
+            <inheritdoc cref="P:System.Security.Cryptography.SymmetricAlgorithm.LegalKeySizes"/>
+        </member>
+        <member name="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.IV">
+            <summary>
+            Gets or sets the Initialization Vector used by the current algorithm.
+            </summary>
+            <inheritdoc cref="P:System.Security.Cryptography.SymmetricAlgorithm.IV"/>
+        </member>
+        <member name="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.BlockSize">
+            <summary>
+            Gets or sets the block size used by the current algorithm (in bits).<br />
+            If an attempt to set the block size to an invalid value is made, a <see cref="T:System.Security.Cryptography.CryptographicException"/> will be thrown.
+            </summary>
+            <returns><inheritdoc cref="P:System.Security.Cryptography.SymmetricAlgorithm.BlockSize"/></returns>
+            <exception cref="T:System.Security.Cryptography.CryptographicException"/>
+        </member>
+        <member name="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.BlockSizeByte">
+            <summary>
+            Gets or sets the block size used by the current algorithm (in bytes).<br />
+            If an attempt to set the block size to an invalid value is made, a <see cref="T:System.Security.Cryptography.CryptographicException"/> will be thrown.
+            </summary>
+            <returns>The block size, in <b>bytes</b>.</returns>
+            <exception cref="T:System.Security.Cryptography.CryptographicException"/>
+        </member>
+        <member name="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.ValidBlockSizes">
+            <summary>
+            Gets the valid block sizes for the current algorithm (in bits).
+            </summary>
+            <inheritdoc cref="P:System.Security.Cryptography.SymmetricAlgorithm.LegalBlockSizes"/>
+        </member>
+        <member name="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.CipherMode">
+            <inheritdoc cref="P:System.Security.Cryptography.SymmetricAlgorithm.Mode"/>
+        </member>
+        <member name="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.PaddingMode">
+            <inheritdoc cref="P:System.Security.Cryptography.SymmetricAlgorithm.Padding"/>
+        </member>
+        <member name="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Encryptor">
+            <summary>
+            Gets the current encryptor used by the current instance of <see cref="T:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher"/>.
+            </summary>
+            <returns>Current encryptor used by this instance of <see cref="T:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher"/>.</returns>
+        </member>
+        <member name="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Decryptor">
+            <summary>
+            Gets the current decryptor used by the current instance of <see cref="T:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher"/>.
+            </summary>
+            <returns>Current decryptor used by this instance of <see cref="T:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher"/>.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.GenerateKey">
+            <summary>
+            Generates a random key and sets it as the active key for the cipher.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.GenerateIV">
+            <summary>
+            Generates a random IV and sets it as the active IV for the cipher.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Clear">
+            <summary>
+            Releases all resouces used by the current <see cref="T:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher"/>.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Dispose">
+            <inheritdoc cref="M:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Clear"/>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.CreateEncryptor">
+            <summary>
+            Creates a new encryptor based on the current algorithm and sets it as the current encryptor. Also disposes of the current one if there is any.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.ClearEncryptor">
+            <summary>
+            Clears the current <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Encryptor"/> and all it's resouces.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.CreateDecryptor">
+            <summary>
+            Creates a new decryptor based on the current algorithm and sets it as the current decryptor. Also disposes of the current one if there is any.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.ClearDecryptor">
+            <summary>
+            Clears the current <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Decryptor"/> and all it's resouces.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Encrypt(System.String)">
+            <summary>
+            <inheritdoc/><br />
+            A new <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Encryptor"/> will be generated at the beginning of the decryption process.<br />
+            This method assumes that the message given to it is complete, therefore it adds padding to it's end and next data you attempt to encrypt will be encrypted using a fresh <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Encryptor"/>.<br />
+            The string of characters is encoded into bytes using the <see cref="P:System.Text.Encoding.UTF8"/>, encrypted and converted a to hexadecimal string.<br />
+            The <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Key"/> and <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.IV"/> must be set before calling this method, otherwise throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/>.
+            </summary>
+            <returns><inheritdoc/> (In hexadecimal).</returns>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Decrypt(System.String)">
+            <summary>
+            <inheritdoc/><br />
+            A new <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Decryptor"/> will be generated at the beginning of the decryption process.<br />
+            This method assumes that the message given to it is complete, therefore it attempts to remove padding at it's end and next data you attempt to decrypt will be decrypted using a fresh <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Decryptor"/>.<br />
+            The string of characters is converted to bytes from the hexadecimal representation, decrypted and decoded back into string using the <see cref="P:System.Text.Encoding.UTF8"/>.<br />
+            The <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Key"/> and <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.IV"/> must be set before calling this method, otherwise throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/>.<br />
+            If the <i>text</i> has incorrect length (not a multiple of <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.BlockSizeByte"/>) after converting to bytes, an <see cref="T:OldCrypt_Library.Exceptions.InvalidInputException"/> will be thrown.
+            </summary>
+            <param name="text">The ciphertext in hexadecimal.</param>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Encrypt(System.Byte[])">
+            <summary>
+            <inheritdoc/><br />
+            A new <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Encryptor"/> will be generated at the beginning of the decryption process.<br />
+            This method assumes that the data given to it is complete, therefore it adds padding to their end and next data you attempt to encrypt will be encrypted using a fresh <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Encryptor"/>.<br />
+            The <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Key"/> and <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.IV"/> must be set before calling this method, otherwise throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/>.<br />
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Decrypt(System.Byte[])">
+            <summary>
+            <inheritdoc/><br />
+            A new <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Decryptor"/> will be generated at the beginning of the decryption process.<br />
+            This method assumes that the data given to it is complete, therefore it removes padding at their end and next data you attempt to decrypt will be decrypted using a fresh <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Decryptor"/>.<br />
+            The <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.Key"/> and <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.IV"/> must be set before calling this method, otherwise throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/>.<br />
+            If the given <i>data</i> has incorrect length (isn't a multiple of <see cref="P:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.BlockSizeByte"/>) an <see cref="T:OldCrypt_Library.Exceptions.InvalidInputException"/> will be thrown.
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.FileHandler(System.IO.BinaryReader,System.IO.BinaryWriter,System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.ValidSettingsAndInput(System.Boolean,System.Int64)">
+            <summary>
+            Checks whether the current settings of <see cref="F:OldCrypt_Library.Modern.Symmetrical.SymmetricalCipher.algorithm"/> are valid and whether given data can be processed using those settings.
+            </summary>
+            <param name="encryption">True if attempting encryption, false if attempting decryption.</param>
+            <param name="dataLength">The length of data that's being attempted to be processed.</param>
+            <returns>True if all settings are valid. Otherwise throws one of the exceptions with message containing information about the problem.</returns>
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/>
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidInputException"/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Affine.Encrypt(System.String)">
+            <summary>
+            <inheritdoc/><br />
+            Throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/> if <see cref="P:OldCrypt_Library.Old.Substitution.Affine.A"/> is invalid (lower than 1 or not coprime with size of the alphabet that's being encrypted (26 in this case)).
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Affine.Decrypt(System.String)">
+            <summary>
+            <inheritdoc/><br />
+            Throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/> if <see cref="P:OldCrypt_Library.Old.Substitution.Affine.A"/> is invalid (lower than 1 or not coprime with size of the alphabet that's being decrypted (26 in this case)).
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Affine.Encrypt(System.Byte[])">
+            <summary>
+            <inheritdoc/><br />
+            Throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/> if <see cref="P:OldCrypt_Library.Old.Substitution.Affine.A"/> is invalid (lower than 1 or not coprime with size of the alphabet that's being encrypted (256 in this case)).
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Affine.Decrypt(System.Byte[])">
+            <summary>
+            <inheritdoc/><br />
+            Throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/> if <see cref="P:OldCrypt_Library.Old.Substitution.Affine.A"/> is invalid (lower than 1 or not coprime with size of the alphabet that's being decrypted (256 in this case)).
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Atbash.Encrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Atbash.Decrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Atbash.Encrypt(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Atbash.Decrypt(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Caesar.Encrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Caesar.Decrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Caesar.Encrypt(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Caesar.Decrypt(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Latin.Encrypt(System.String)">
+            <summary>
+            <inheritdoc/><br />
+            Throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidInputException"/> if the text is invalid (contains characters other than a - z, A - Z, whitespace).
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Latin.Decrypt(System.String)">
+            <summary>
+            <inheritdoc/><br />
+            Throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidInputException"/> if the text is invalid (contains characters other than numbers from 1 to 26).
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Latin.Encrypt(System.Byte[])">
+            <summary>
+            Throws a <see cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException" />.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Latin.Decrypt(System.Byte[])">
+            <summary>
+            Throws a <see cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException" />.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Playfair.Encrypt(System.String)">
+            <summary>
+            <inheritdoc/><br />
+            Throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidInputException"/> if the text is invalid (contains characters other than a - z, A - Z, whitespace).
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Playfair.PrepareForEncryption(System.String)">
+            <summary>
+            Prepares the given text for encryption (removes spaces, converts to upper-case and replaces all 'J' by 'I').<br />
+            Throws a <see cref="T:OldCrypt_Library.Exceptions.InvalidInputException" /> if invalid characters are detected in the input.
+            </summary>
+            <param name="text">Text to prepare.</param>
+            <returns>Text prepared for encryption.</returns>
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidInputException" />
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Playfair.IsValid(System.String)">
+            <summary>
+            Checks whether the given text is valid for the standard Playfair cipher.
+            </summary>
+            <param name="text">The text to check.</param>
+            <returns>True if the text is valid for the standard Playfair cipher, otherwise false.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Playfair.Decrypt(System.String)">
+            <summary>
+            <inheritdoc/><br />
+            Throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidInputException"/> if the amount of characters in the text is odd.<br />
+            Throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidInputException"/> if the text is invalid (contains characters other than a - z, A - Z, whitespace).
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Playfair.Encrypt(System.Byte[])">
+            <summary>
+            Throws a <see cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException"/>.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Playfair.Decrypt(System.Byte[])">
+            <summary>
+            Throws a <see cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException"/>.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Polybius.Encrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Polybius.Decrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Polybius.Encrypt(System.Byte[])">
+            <summary>
+            Throws a <see cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException"/>
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Polybius.Decrypt(System.Byte[])">
+            <summary>
+            Throws a <see cref="T:OldCrypt_Library.Exceptions.CipherUnavailableException"/>
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Vigenere.#ctor(System.String)">
+            <summary>
+            Initiates a new instance of the Vigenere cipher class for encryption/decryption in classical mode.
+            </summary>
+            <param name="key">Key to be used for encryption/decryption. The key can contain only characters a - z and A - Z (will be converted to a - z in the actual key).</param>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Vigenere.#ctor(System.Byte[])">
+            <summary>
+            Initiates a new instance of the Vigenere cipher class for encryption/decryption in binary mode.
+            </summary>
+            <param name="binKey">Key to be used for encryption/decryption.</param>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Vigenere.#ctor(System.String,System.Byte[])">
+            <summary>
+            Initiates a new instance of the Vigenere cipher class for encryption/decryption in classical and binary mode.
+            </summary>
+            <param name="key">Key to be used for encryption/decryption in classical mode.</param>
+            <param name="binKey">Key to be used for encryption/decryption in binary mode.</param>
+        </member>
+        <member name="P:OldCrypt_Library.Old.Substitution.Vigenere.Key">
+            <summary>
+            Gets the key that's used for classical mode. The key will be null if it's not set or set to invalid value.
+            </summary>
+        </member>
+        <member name="P:OldCrypt_Library.Old.Substitution.Vigenere.BinKey">
+            <summary>
+            Gets the key that's used for binary mode.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Vigenere.CreateEncryptionKey">
+            <summary>
+            Converts the current <see cref="F:OldCrypt_Library.Old.Substitution.Vigenere.key"/> into a key, that can be used for encryption/decryption (converts the characters to 0-based numbers).
+            </summary>
+            <returns>Key that can be used for encryption/decryption in classical mode. Or null if <see cref="M:OldCrypt_Library.Old.Substitution.Vigenere.IsKeyValid"/> returns false.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Vigenere.IsKeyValid">
+            <summary>
+            Checks whether the current <see cref="F:OldCrypt_Library.Old.Substitution.Vigenere.key"/> is valid for the Vigenere cipher.<br />
+            The key is valid if it is not null, has length > 0 and contains only letters a - z or A - Z.
+            </summary>
+            <returns>True if key is valid. Otherwise false.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Vigenere.IsKeyValid(System.String)">
+            <summary>
+            Checks whether the key is valid for the Vigenere cipher.<br />
+            The key is valid if it is not null, has length > 0 and contains only letters a - z or A - Z.
+            </summary>
+            <param name="key">Key to be checked.</param>
+            <returns>True if key is valid. Otherwise false.</returns>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Vigenere.Encrypt(System.String)">
+            <summary>
+            <inheritdoc/><br />
+            Throws <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/> if the <see cref="P:OldCrypt_Library.Old.Substitution.Vigenere.Key"/> is empty (null or it's length is 0) or contains invalid characters (anything other that a - z and A - Z).
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Vigenere.Decrypt(System.String)">
+            <summary>
+            <inheritdoc/><br />
+            Throws <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/> if the <see cref="P:OldCrypt_Library.Old.Substitution.Vigenere.Key"/> is empty (null or it's length is 0) or contains invalid characters (anything other that a - z and A - Z).
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Vigenere.Encrypt(System.Byte[])">
+            <summary>
+            <inheritdoc/><br />
+            Throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/> if the <see cref="P:OldCrypt_Library.Old.Substitution.Vigenere.Key"/> is not set.
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Substitution.Vigenere.Decrypt(System.Byte[])">
+            <summary>
+            <inheritdoc/><br />
+            Throws an <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/> if the <see cref="P:OldCrypt_Library.Old.Substitution.Vigenere.Key"/> is not set.
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.RailFence.#ctor(System.Int32)">
+            <summary>
+            Initiates a new instance of the Rail fence cipher.
+            </summary>
+            <param name="rowCount">The amount of rows to be used for encryption/decryption. Must be more than 0, otherwise throws <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/></param>
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException" />
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.RailFence.Encrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.RailFence.Decrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.RailFence.Encrypt(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.RailFence.Decrypt(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.RailFence.FileHandler(System.IO.BinaryReader,System.IO.BinaryWriter,System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.RailFence.EncryptFile(System.IO.BinaryReader,System.IO.BinaryWriter)">
+            <summary>
+            <inheritdoc/><br />
+            <b>Rail fence cipher must encrypt the whole file at once. If an attempt to encrypt file larger than <see cref="F:System.Int32.MaxValue"/> is made, the encryption will fail.</b>
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.RailFence.DecryptFile(System.IO.BinaryReader,System.IO.BinaryWriter)">
+            <summary>
+            <inheritdoc/><br />
+            <b>Rail fence cipher must decrypt the whole file at once. If an attempt to decrypt file larger than <see cref="F:System.Int32.MaxValue"/> is made, the decryption will fail.</b>
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.Reverse.Encrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.Reverse.Decrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.Reverse.EncryptFile(System.IO.BinaryReader,System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.Reverse.DecryptFile(System.IO.BinaryReader,System.IO.BinaryWriter)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.Reverse.Encrypt(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.Reverse.Decrypt(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.ReverseNeighbors.Encrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.ReverseNeighbors.Decrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.ReverseNeighbors.Encrypt(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.ReverseNeighbors.Decrypt(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.Scytale.#ctor(System.Int32)">
+            <summary>
+            Initiates a new instance of a Scytale cipher.
+            </summary>
+            <param name="columnCount">The amount of columns that's to be used in encryption/decryption. Must be more than 0, otherwise throws <see cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException"/></param>
+            <exception cref="T:OldCrypt_Library.Exceptions.InvalidCipherParametersException" />
+        </member>
+        <member name="P:OldCrypt_Library.Old.Transposition.Scytale.ColumnCount">
+            <summary>
+            Gets the number of columns used for encryption/decryption.
+            </summary>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.Scytale.Encrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.Scytale.Decrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.Scytale.Encrypt(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.Scytale.Decrypt(System.Byte[])">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.Scytale.FileHandler(System.IO.BinaryReader,System.IO.BinaryWriter,System.Boolean)">
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.Scytale.EncryptFile(System.IO.BinaryReader,System.IO.BinaryWriter)">
+            <summary>
+            <inheritdoc/><br />
+            <b>Scytale cipher must encrypt the whole file at once. If an attempt to encrypt file larger than <see cref="F:System.Int32.MaxValue"/> is made, the encryption will fail.</b>
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:OldCrypt_Library.Old.Transposition.Scytale.DecryptFile(System.IO.BinaryReader,System.IO.BinaryWriter)">
+            <summary>
+            <inheritdoc/><br />
+            <b>Scytale cipher must decrypt the whole file at once. If an attempt to decrypt file larger than <see cref="F:System.Int32.MaxValue"/> is made, the decryption will fail.</b>
+            </summary>
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

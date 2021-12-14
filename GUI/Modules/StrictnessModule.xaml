@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="OldCrypt_GUI.GUI.Modules.StrictnessModule"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OldCrypt_GUI.GUI.Modules"
+             mc:Ignorable="d" 
+             d:DesignHeight="42" d:DesignWidth="206">
+    <Grid>
+        <CheckBox x:Name="ChB_ignoreCase" Content="Ignore case" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14"/>
+        <CheckBox x:Name="ChB_strictMode" Content="Strict mode" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14"/>
+        <CheckBox x:Name="ChB_ignoreSpaces" Content="Ignore spaces" HorizontalAlignment="Left" Margin="0,23,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <Button x:Name="B_help" Content="?" HorizontalAlignment="Right" Margin="0,20,0,0" VerticalAlignment="Top" Width="91" FontSize="14" FontWeight="Bold" Click="B_help_Click"/>
+
+    </Grid>
+</UserControl>

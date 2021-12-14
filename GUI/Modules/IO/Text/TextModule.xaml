@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="OldCrypt_GUI.GUI.Modules.IO.Text.TextModule"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OldCrypt_GUI.GUI.Modules.IO.Text"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="TB_text" TextWrapping="Wrap" FontSize="18" Grid.ColumnSpan="2" Margin="0,0,0,47" TextChanged="TB_text_TextChanged"/>
+        <Button x:Name="B_save" Content="Save" Margin="10,0,10,4" Grid.Column="1" Height="38" VerticalAlignment="Bottom" FontSize="18" Click="B_save_Click"/>
+    </Grid>
+</UserControl>

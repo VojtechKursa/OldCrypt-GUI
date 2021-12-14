@@ -1,0 +1,17 @@
+﻿<local:CipherControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OldCrypt_GUI.GUI.Modules.CipherControls"
+             xmlns:Modules="clr-namespace:OldCrypt_GUI.GUI.Modules"
+             x:Class="OldCrypt_GUI.GUI.Modules.CipherControls.CipherControl_Vigenere"
+             mc:Ignorable="d" 
+             d:DesignHeight="78.925" d:DesignWidth="178.282">
+    <Grid>
+        <local:Label_CipherName x:Name="mod_cipherName" Height="40" VerticalAlignment="Top"/>
+
+        <Label Content="Key:" VerticalContentAlignment="Center" HorizontalAlignment="Left" FontSize="18" Margin="0,45,0,0"/>
+        <TextBox x:Name="TB_key" VerticalContentAlignment="Center" Margin="47,45,0,0" FontSize="18" TextWrapping="Wrap" Text=""/>
+    </Grid>
+</local:CipherControl>

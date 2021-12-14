@@ -1,0 +1,16 @@
+﻿<Window x:Class="OldCrypt_GUI.GUI.Modules.CipherControls.KeyEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OldCrypt_GUI.GUI.Modules.CipherControls"
+        mc:Ignorable="d"
+        Title="Key/IV editor" Height="300" Width="400" MinHeight="135" MinWidth="236" FontSize="18" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TextBox x:Name="TB_value" Margin="10,10,10,48" TextWrapping="Wrap" Text="" IsReadOnly="True"/>
+        <Button x:Name="B_edit" Content="Edit" HorizontalAlignment="Right" Margin="0,0,124,10" Width="93" Height="33" VerticalAlignment="Bottom" Click="B_edit_Click" Grid.ColumnSpan="2"/>
+        <Button x:Name="B_close" Content="Close" HorizontalAlignment="Right" Margin="0,0,10,10" Width="93" Height="33" VerticalAlignment="Bottom" Click="B_close_Click" Grid.Column="1"/>
+        <Button x:Name="B_apply" Content="Apply" HorizontalAlignment="Right" Margin="0,0,124,10" Width="93" Height="33" VerticalAlignment="Bottom" Visibility="Hidden" Click="B_apply_Click" Grid.ColumnSpan="2"/>
+        <Button x:Name="B_cancel" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,10,10" Width="93" Height="33" VerticalAlignment="Bottom" Visibility="Hidden" Click="B_cancel_Click" Grid.Column="1"/>
+    </Grid>
+</Window>

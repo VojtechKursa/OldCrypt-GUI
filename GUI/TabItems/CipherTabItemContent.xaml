@@ -1,0 +1,40 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OldCrypt_GUI.GUI.TabItems"
+             xmlns:Text="clr-namespace:OldCrypt_GUI.GUI.Modules.IO.Text" xmlns:File="clr-namespace:OldCrypt_GUI.GUI.Modules.IO.File" xmlns:Modules="clr-namespace:OldCrypt_GUI.GUI.Modules" xmlns:CipherControls="clr-namespace:OldCrypt_GUI.GUI.Modules.CipherControls"
+             x:Class="OldCrypt_GUI.GUI.TabItems.CipherTabItemContent"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid x:Name="grid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Input" Margin="0,5,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" FontSize="18" FontWeight="Bold"/>
+        <Label Content="Output" Margin="0,5,0,0" HorizontalContentAlignment="Center" VerticalAlignment="Top" FontSize="18" FontWeight="Bold" Grid.Column="2"/>
+
+        <Text:TextInputModule x:Name="textInput" Margin="0,44,0,0"/>
+        <Text:TextOutputModule x:Name="textOutput" Grid.Column="2" Margin="0,44,0,0"/>
+
+        <File:FileInputModule x:Name="fileInput" Margin="0,49,0,0" Visibility="Hidden"/>
+        <File:FileOutputModule x:Name="fileOutput" Grid.Column="2" Margin="0,49,0,0" Visibility="Hidden"/>
+
+        <Button x:Name="B_encrypt" Content="Encrypt" Grid.Column="1" Margin="30,0,30,135" VerticalAlignment="Bottom" Height="38" FontSize="18" FontWeight="Bold" Click="B_encrypt_Click"/>
+        <Button x:Name="B_decrypt" Content="Decrypt" Grid.Column="1" Margin="30,0,30,92" VerticalAlignment="Bottom" Height="38" FontSize="18" FontWeight="Bold" Click="B_decrypt_Click"/>
+
+        <Label Content="Mode:" Grid.Column="1" HorizontalAlignment="Left" Margin="10,0,0,194" VerticalAlignment="Bottom" FontSize="18"/>
+        <ComboBox x:Name="CB_mode" Grid.Column="1" Margin="92,0,10,192" VerticalAlignment="Bottom" FontSize="18" Height="34" SelectedIndex="0" SelectionChanged="CB_mode_SelectionChanged">
+            <ListBoxItem Content="Text"/>
+            <ListBoxItem Content="Binary"/>
+        </ComboBox>
+
+        <Modules:ProgressModule x:Name="progressModule" Grid.Column="1" Margin="10,0,10,10" Height="69" VerticalAlignment="Bottom"/>
+        <Modules:StrictnessModule x:Name="strictnessModule" Grid.Column="1" Height="50" Margin="10,0,10,231" VerticalAlignment="Bottom"/>
+
+    </Grid>
+</UserControl>
