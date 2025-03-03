@@ -1,22 +1,22 @@
-﻿using OldCrypt_Library.Old.Substitution;
+﻿using OldCrypt.Library.Old.Substitution;
 
-namespace OldCrypt_GUI.GUI.Modules.CipherControls
+namespace OldCrypt.GUI.GUI.Modules.CipherControls
 {
-    /// <summary>
-    /// Interaction logic for CipherControl_Polybius.xaml
-    /// </summary>
-    public partial class CipherControl_Rotation : CipherControl
-    {
-        public CipherControl_Rotation()
-        {
-            InitializeComponent();
+	/// <summary>
+	/// Interaction logic for CipherControl_Polybius.xaml
+	/// </summary>
+	public partial class CipherControl_Rotation : CipherControl
+	{
+		public CipherControl_Rotation()
+		{
+			InitializeComponent();
 
-            mod_cipherName.LabelContent = "Rotation";
-        }
+			mod_cipherName.LabelContent = "Rotation";
+		}
 
-        protected override void CreateCipher()
-        {
-            cipher = new Rotation(NUD_a.Value);
-        }
-    }
+		protected override void CreateCipher()
+		{
+			cipher = new Rotation(NUD_a.Value);
+		}
+	}
 }

@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:OldCrypt_GUI.GUI.Modules.CipherControls"
-             xmlns:Modules="clr-namespace:OldCrypt_GUI.GUI.Modules" x:Class="OldCrypt_GUI.GUI.Modules.CipherControls.CipherControl_Scytale"
+             xmlns:local="clr-namespace:OldCrypt.GUI.GUI.Modules.CipherControls"
+             xmlns:Modules="clr-namespace:OldCrypt.GUI.GUI.Modules" x:Class="OldCrypt.GUI.GUI.Modules.CipherControls.CipherControl_Scytale"
              mc:Ignorable="d" 
              d:DesignHeight="79.077" d:DesignWidth="206.45">
     <Grid>

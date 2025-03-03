@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31321.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OldCrypt GUI", "OldCrypt GUI.csproj", "{0E7D46EA-6D37-44BD-943A-ABF627B4638A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OldCrypt Library", "Libraries\OldCrypt Library\OldCrypt Library.csproj", "{8AB13D5D-1DED-E938-BD90-F930A863093D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{0E7D46EA-6D37-44BD-943A-ABF627B4638A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E7D46EA-6D37-44BD-943A-ABF627B4638A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E7D46EA-6D37-44BD-943A-ABF627B4638A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AB13D5D-1DED-E938-BD90-F930A863093D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AB13D5D-1DED-E938-BD90-F930A863093D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AB13D5D-1DED-E938-BD90-F930A863093D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AB13D5D-1DED-E938-BD90-F930A863093D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

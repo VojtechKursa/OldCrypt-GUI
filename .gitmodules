@@ -1,0 +1,3 @@
+[submodule "Library"]
+	path = Libraries/OldCrypt Library
+	url = https://github.com/VojtechKursa/OldCrypt-Library

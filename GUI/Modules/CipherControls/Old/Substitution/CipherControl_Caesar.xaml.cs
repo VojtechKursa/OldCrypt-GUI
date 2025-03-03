@@ -1,22 +1,22 @@
-﻿using OldCrypt_Library.Old.Substitution;
+﻿using OldCrypt.Library.Old.Substitution;
 
-namespace OldCrypt_GUI.GUI.Modules.CipherControls
+namespace OldCrypt.GUI.GUI.Modules.CipherControls
 {
-    /// <summary>
-    /// Interaction logic for CipherControl_Caesar.xaml
-    /// </summary>
-    public partial class CipherControl_Caesar : CipherControl
-    {
-        public CipherControl_Caesar()
-        {
-            InitializeComponent();
+	/// <summary>
+	/// Interaction logic for CipherControl_Caesar.xaml
+	/// </summary>
+	public partial class CipherControl_Caesar : CipherControl
+	{
+		public CipherControl_Caesar()
+		{
+			InitializeComponent();
 
-            mod_cipherName.LabelContent = "Caesar";
-        }
+			mod_cipherName.LabelContent = "Caesar";
+		}
 
-        protected override void CreateCipher()
-        {
-            cipher = new Caesar(NUD_a.Value);
-        }
-    }
+		protected override void CreateCipher()
+		{
+			cipher = new Caesar(NUD_a.Value);
+		}
+	}
 }

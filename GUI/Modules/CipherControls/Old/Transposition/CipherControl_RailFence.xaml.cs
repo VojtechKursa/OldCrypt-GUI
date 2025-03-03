@@ -1,22 +1,22 @@
-﻿using OldCrypt_Library.Old.Transposition;
+﻿using OldCrypt.Library.Old.Transposition;
 
-namespace OldCrypt_GUI.GUI.Modules.CipherControls
+namespace OldCrypt.GUI.GUI.Modules.CipherControls
 {
-    /// <summary>
-    /// Interaction logic for CipherControl_RailFence.xaml
-    /// </summary>
-    public partial class CipherControl_RailFence : CipherControl
-    {
-        public CipherControl_RailFence()
-        {
-            InitializeComponent();
+	/// <summary>
+	/// Interaction logic for CipherControl_RailFence.xaml
+	/// </summary>
+	public partial class CipherControl_RailFence : CipherControl
+	{
+		public CipherControl_RailFence()
+		{
+			InitializeComponent();
 
-            mod_cipherName.LabelContent = "Rail fence";
-        }
+			mod_cipherName.LabelContent = "Rail fence";
+		}
 
-        protected override void CreateCipher()
-        {
-            cipher = new RailFence(NuD_rowCount.Value);
-        }
-    }
+		protected override void CreateCipher()
+		{
+			cipher = new RailFence(NuD_rowCount.Value);
+		}
+	}
 }

@@ -1,9 +1,9 @@
-﻿<local:CipherControl x:Class="OldCrypt_GUI.GUI.Modules.CipherControls.CipherControl_LabelOnly"
+﻿<local:CipherControl x:Class="OldCrypt.GUI.GUI.Modules.CipherControls.CipherControl_LabelOnly"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:OldCrypt_GUI.GUI.Modules.CipherControls"
+             xmlns:local="clr-namespace:OldCrypt.GUI.GUI.Modules.CipherControls"
              mc:Ignorable="d" 
              d:DesignHeight="43" d:DesignWidth="166">
     <Grid>

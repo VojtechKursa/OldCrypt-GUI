@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0E7D46EA-6D37-44BD-943A-ABF627B4638A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>OldCrypt_GUI</RootNamespace>
+    <RootNamespace>OldCrypt.GUI</RootNamespace>
     <AssemblyName>OldCrypt GUI</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -63,13 +63,9 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <StartupObject>OldCrypt_GUI.App</StartupObject>
+    <StartupObject>OldCrypt.GUI.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OldCrypt Library, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\OldCrypt Library\OldCrypt Library.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -196,7 +192,6 @@
     <Compile Include="GUI\Modules\CipherControls\CipherControl_LabelOnly.xaml.cs">
       <DependentUpon>CipherControl_LabelOnly.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Modules\CipherControls\Hashing\CipherControl_RIPEMD160.cs" />
     <Compile Include="GUI\Modules\CipherControls\Hashing\CipherControl_SHA1.cs" />
     <Compile Include="GUI\Modules\CipherControls\Hashing\CipherControl_SHA256.cs" />
     <Compile Include="GUI\Modules\CipherControls\Hashing\CipherControl_SHA384.cs" />
@@ -357,6 +352,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="Libraries\OldCrypt Library\OldCrypt Library.csproj">
+      <Project>{8ab13d5d-1ded-e938-bd90-f930a863093d}</Project>
+      <Name>OldCrypt Library</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

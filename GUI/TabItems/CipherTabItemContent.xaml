@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:OldCrypt_GUI.GUI.TabItems"
-             xmlns:Text="clr-namespace:OldCrypt_GUI.GUI.Modules.IO.Text" xmlns:File="clr-namespace:OldCrypt_GUI.GUI.Modules.IO.File" xmlns:Modules="clr-namespace:OldCrypt_GUI.GUI.Modules" xmlns:CipherControls="clr-namespace:OldCrypt_GUI.GUI.Modules.CipherControls"
-             x:Class="OldCrypt_GUI.GUI.TabItems.CipherTabItemContent"
+             xmlns:local="clr-namespace:OldCrypt.GUI.GUI.TabItems"
+             xmlns:Text="clr-namespace:OldCrypt.GUI.GUI.Modules.IO.Text" xmlns:File="clr-namespace:OldCrypt.GUI.GUI.Modules.IO.File" xmlns:Modules="clr-namespace:OldCrypt.GUI.GUI.Modules" xmlns:CipherControls="clr-namespace:OldCrypt.GUI.GUI.Modules.CipherControls"
+             x:Class="OldCrypt.GUI.GUI.TabItems.CipherTabItemContent"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid x:Name="grid">

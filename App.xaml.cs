@@ -1,11 +1,11 @@
 ﻿using System.Windows;
 
-namespace OldCrypt_GUI
+namespace OldCrypt.GUI
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
-    {
-    }
+	/// <summary>
+	/// Interaction logic for App.xaml
+	/// </summary>
+	public partial class App : Application
+	{
+	}
 }
